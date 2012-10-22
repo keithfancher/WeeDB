@@ -96,7 +96,11 @@ def main():
 
     print 'Welcome to WeeDB. Have a tiny bit of fun!'
     while True:
-        command = raw_input('>>> ')
+        try:
+            command = raw_input('>>> ')
+        except (KeyboardInterrupt, EOFError):
+            sys.exit(0)
+
         try:
             db.execute_command(command)
         except InvalidCommandError:
