@@ -37,5 +37,23 @@ class TestWeeDB(unittest.TestCase):
             self.assertFalse(self.db._is_valid_command(com))
 
 
+class TestCommands(unittest.TestCase):
+
+    def setUp(self):
+        self.db = weedb.WeeDB()
+
+    def test_set(self):
+        self.db._set('a', '10')
+        self.assertEqual(self.db._db['a'], '10')
+
+    def test_get(self):
+        pass
+
+    def test_unset(self):
+        self.db._db['bleep'] = 'bloop'
+        self.db._unset('bleep')
+        self.assertEqual(self.db._db.get('bleep'), None)
+
+
 if __name__ == '__main__':
     unittest.main()
