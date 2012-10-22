@@ -10,6 +10,9 @@
 # http://sam.zoy.org/wtfpl/COPYING for more details.
 
 
+import sys
+
+
 class InvalidCommandError(Exception):
     pass
 
@@ -57,19 +60,19 @@ class WeeDB(object):
             return False
 
     def _set(self, name, value):
-        print 'set ' + name + ' ' + value
+        self._db[name] = value
 
     def _get(self, name):
-        print 'get ' + name
+        print self._db[name]
 
     def _unset(self, name):
-        print 'unset ' + name
+        del self._db[name]
 
     def _numequalto(self, value):
         print 'numequalto ' + value
 
     def _end(self):
-        print 'end'
+        sys.exit(0)
 
     def _begin(self):
         print 'begin'
@@ -82,21 +85,18 @@ class WeeDB(object):
 
 
 def main():
+    """My main() man."""
     db = WeeDB()
-    try:
-        db.execute_command('SET a 10')
-        db.execute_command('GET a')
-        db.execute_command('UNSET a')
-        db.execute_command('NUMEQUALTO 10')
-        db.execute_command('BEGIN')
-        db.execute_command('ROLLBACK')
-        db.execute_command('COMMIT')
-        db.execute_command('END')
-        db.execute_command('BLARG')
-    except InvalidCommandError:
-        print 'Invalid command!'
-    except InvalidArgumentError:
-        print 'Invalid argument(s)!'
+
+    print 'Welcome to WeeDB. Have a tiny bit of fun!'
+    while True:
+        command = raw_input('>>> ')
+        try:
+            db.execute_command(command)
+        except InvalidCommandError:
+            print "Sorry, I don't know that command!"
+        except InvalidArgumentError:
+            print 'Invalid argument(s)!'
 
 
 if __name__ == '__main__':
