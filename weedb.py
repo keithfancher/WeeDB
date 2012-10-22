@@ -53,27 +53,40 @@ class WeeDB(object):
         return (com_list[0].upper(), com_list[1:])
 
     def _set(self, name, value):
+        """Set name to value."""
         self._db[name] = value
 
     def _get(self, name):
+        """Get value of name."""
         print self._db[name]
 
     def _unset(self, name):
+        """Remove name from database."""
         del self._db[name]
 
     def _numequalto(self, value):
+        """Print number of entries with the given value."""
+        # TODO
         print 'numequalto ' + value
 
     def _end(self):
+        """Exit the interactive database."""
         sys.exit(0)
 
     def _begin(self):
+        """Open a transactional block."""
+        # TODO
         print 'begin'
 
     def _rollback(self):
+        """Rollback all commands from most recent transactional block."""
+        # TODO
         print 'rollback'
 
     def _commit(self):
+        """Permanently store all operations from any open transactional
+        block."""
+        # TODO
         print 'commit'
 
 
