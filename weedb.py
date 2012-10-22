@@ -57,8 +57,8 @@ class WeeDB(object):
         self._db[name] = value
 
     def _get(self, name):
-        """Get value of name."""
-        print self._db[name]
+        """Print value of name. Print NULL if name isn't set."""
+        print self._db.get(name, "NULL")
 
     def _unset(self, name):
         """Remove name from database."""
