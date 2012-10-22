@@ -39,10 +39,10 @@ class WeeDB(object):
         either an InvalidCommandError or InvalidArgumentError if the input is
         bad."""
         command, args = self._parse_command(input_command)
-        if not self._is_valid_command(command):
-            raise InvalidCommandError("Sorry, WeeDB doesn't know that one.")
         try:
             self._commands[command](*args)
+        except KeyError:
+            raise InvalidCommandError("Sorry, WeeDB doesn't know that one.")
         except TypeError:
             raise InvalidArgumentError('Invalid argument(s)!')
 
@@ -51,13 +51,6 @@ class WeeDB(object):
         where args is a list of arguments."""
         com_list = command.split()
         return (com_list[0].upper(), com_list[1:])
-
-    def _is_valid_command(self, command):
-        """Return True if the command is valid, False otherwise. """
-        if command.upper() in self._commands.keys():
-            return True
-        else:
-            return False
 
     def _set(self, name, value):
         self._db[name] = value
