@@ -84,6 +84,19 @@ class TestThumbtackGivenInput(unittest.TestCase):
         self.db._numequalto('10')
         self.assertEqual(self.output.getvalue(), "2\n0\n1\n0\n")
 
+    def test_sample_input_03(self):
+        self.db._begin()
+        self.db._set('a', '10')
+        self.db._get('a')
+        self.db._begin()
+        self.db._set('a', '20')
+        self.db._get('a')
+        self.db._rollback()
+        self.db._get('a')
+        self.db._rollback()
+        self.db._get('a')
+        self.assertEqual(self.output.getvalue(), "10\n20\n10\nNULL\n")
+
 
 if __name__ == '__main__':
     unittest.main()
