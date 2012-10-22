@@ -31,6 +31,9 @@ class TestCommands(unittest.TestCase):
         self.db._unset('bleep')
         self.assertEqual(self.db._db.get('bleep'), None)
 
+    def test_numequalto(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

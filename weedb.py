@@ -66,8 +66,9 @@ class WeeDB(object):
 
     def _numequalto(self, value):
         """Print number of entries with the given value."""
-        # TODO
         print 'numequalto ' + value
+        n = [name for name, val in self._db.iteritems() if val == value]
+        print len(n)
 
     def _end(self):
         """Exit the interactive database."""
