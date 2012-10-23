@@ -107,7 +107,7 @@ class WeeDB(object):
         """Permanently store all operations from any open transactional
         block."""
         self._transactions = [ self._flatten_transaction_layers() ]
-        # TODO: delete names whose values are None at this point
+        self._filter_empty_entries()
 
     def _uncommitted_transactions(self):
         """Return True if there are pending transactions, False otherwise."""
@@ -127,6 +127,13 @@ class WeeDB(object):
         list of dictionaries. Turns two dictionaries into one by assigning all
         of x's values to y, overwriting where necessary."""
         return dict(y.items() + x.items())
+
+    def _filter_empty_entries(self):
+        """Remove database items whose values are set to None. Assumes all open
+        transactions have been committed."""
+        self._transactions[0] = { k: v
+                                  for k, v in self._transactions[0].iteritems()
+                                  if v} # dict comprehension, neat!
 
 
 def main():

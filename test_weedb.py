@@ -54,6 +54,16 @@ class TestCommands(unittest.TestCase):
         self.db._numequalto('10')
         self.assertEqual(self.output.getvalue(), "3\n")
 
+    def test_commit_deletes_null_values(self):
+        """After committing all open transactions, values that were "unset" in
+        a transactional layer should be fully removed from the database."""
+        self.db._set('a', '10')
+        self.db._begin()
+        self.db._unset('a')
+        self.db._commit()
+        with self.assertRaises(KeyError):
+            self.db._transactions[0]['a']
+
 
 class TestThumbtackGivenInput(unittest.TestCase):
 
