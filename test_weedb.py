@@ -47,7 +47,10 @@ class TestCommands(unittest.TestCase):
         self.assertEqual(self.db._db.get('bleep'), None)
 
     def test_numequalto(self):
-        self.db._db = {'a': '10', 'b': '10', 'c': '20', 'd': '10'}
+        self.db._db['a'] = '10'
+        self.db._db['b'] = '10'
+        self.db._db['c'] = '20'
+        self.db._db['d'] = '10'
         self.db._numequalto('10')
         self.assertEqual(self.output.getvalue(), "3\n")
 
@@ -96,6 +99,41 @@ class TestThumbtackGivenInput(unittest.TestCase):
         self.db._rollback()
         self.db._get('a')
         self.assertEqual(self.output.getvalue(), "10\n20\n10\nNULL\n")
+
+    def test_sample_input_04(self):
+        self.db._begin()
+        self.db._set('a', '30')
+        self.db._begin()
+        self.db._set('a', '40')
+        self.db._commit()
+        self.db._get('a')
+        self.db._rollback()
+        self.assertEqual(self.output.getvalue(), "40\nINVALID ROLLBACK\n")
+
+    def test_sample_input_05(self):
+        self.db._set('a', '50')
+        self.db._begin()
+        self.db._get('a')
+        self.db._set('a', '60')
+        self.db._begin()
+        self.db._unset('a')
+        self.db._get('a')
+        self.db._rollback()
+        self.db._get('a')
+        self.db._commit()
+        self.db._get('a')
+        self.assertEqual(self.output.getvalue(), "50\nNULL\n60\n60\n")
+
+    def test_sample_input_06(self):
+        self.db._set('a', '10')
+        self.db._begin()
+        self.db._numequalto('10')
+        self.db._begin()
+        self.db._unset('a')
+        self.db._numequalto('10')
+        self.db._rollback()
+        self.db._numequalto('10')
+        self.assertEqual(self.output.getvalue(), "1\n0\n1\n")
 
 
 if __name__ == '__main__':
