@@ -1,4 +1,15 @@
 WeeDB
 =====
 
-It's a tiny database!
+It's a tiny in-memory database! See the source for details, commands, &c.
+
+
+Requirements
+------------
+* Python 2.7.x
+* A wee amount of data
+
+
+Important Note
+--------------
+Don't actually use this for anything.
