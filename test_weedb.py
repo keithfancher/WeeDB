@@ -32,25 +32,25 @@ class TestCommands(unittest.TestCase):
 
     def test_set(self):
         self.db._set('a', '10')
-        self.assertEqual(self.db._db['a'], '10')
+        self.assertEqual(self.db._transactions[0]['a'], '10')
 
     def test_get(self):
-        self.db._db['a'] = '10'
+        self.db._transactions[0]['a'] = '10'
         self.db._get('a')
         self.assertEqual(self.output.getvalue(), "10\n")
         self.db._get('asdf')
         self.assertEqual(self.output.getvalue(), "10\nNULL\n")
 
     def test_unset(self):
-        self.db._db['bleep'] = 'bloop'
+        self.db._transactions[0]['bleep'] = 'bloop'
         self.db._unset('bleep')
-        self.assertEqual(self.db._db.get('bleep'), None)
+        self.assertEqual(self.db._transactions[0].get('bleep'), None)
 
     def test_numequalto(self):
-        self.db._db['a'] = '10'
-        self.db._db['b'] = '10'
-        self.db._db['c'] = '20'
-        self.db._db['d'] = '10'
+        self.db._transactions[0]['a'] = '10'
+        self.db._transactions[0]['b'] = '10'
+        self.db._transactions[0]['c'] = '20'
+        self.db._transactions[0]['d'] = '10'
         self.db._numequalto('10')
         self.assertEqual(self.output.getvalue(), "3\n")
 
